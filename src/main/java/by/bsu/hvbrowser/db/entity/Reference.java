@@ -1,9 +1,9 @@
-package by.bsu.hvbrowser.parser.db.entity;
+package by.bsu.hvbrowser.db.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Collection;
+
+import javax.persistence.*;
+
 
 @Entity
 @Table(name="reference")
@@ -18,6 +18,9 @@ public class Reference {
 	
 	@Column(name="path")
 	private int path;
+	
+	@OneToMany(mappedBy = "reference")
+	private Collection<Vcf> vcfFiles;
 
 	public Reference() {
 		super();

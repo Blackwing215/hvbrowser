@@ -1,4 +1,6 @@
-package by.bsu.hvbrowser.parser.db.entity;
+package by.bsu.hvbrowser.db.entity;
+
+import java.util.Collection;
 
 import javax.persistence.*;
 
@@ -8,10 +10,16 @@ public class Filter {
 
 	@Id
 	@Column(name="idFilter")
-	private String idFilter;
+	private String id;
 	
 	@Column(name="description")
 	private String description;
+	
+	@OneToMany(mappedBy = "filter")
+	private Collection<Variant> variants;
+	
+	@ManyToMany(mappedBy="filters")
+	private Collection<Vcf> vcfFiles;
 
 	public Filter() {
 		super();
@@ -19,13 +27,13 @@ public class Filter {
 
 	public Filter(String idFilter, String description) {
 		super();
-		this.idFilter = idFilter;
+		this.id = idFilter;
 		this.description = description;
 	}
 
 	@Override
 	public String toString() {
-		return "Filter [idFilter=" + idFilter + ", description=" + description + "]";
+		return "Filter [idFilter=" + id + ", description=" + description + "]";
 	}
 
 	@Override
@@ -33,7 +41,7 @@ public class Filter {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((idFilter == null) ? 0 : idFilter.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -51,20 +59,20 @@ public class Filter {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (idFilter == null) {
-			if (other.idFilter != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idFilter.equals(other.idFilter))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
 	public String getIdFilter() {
-		return idFilter;
+		return id;
 	}
 
 	public void setIdFilter(String idFilter) {
-		this.idFilter = idFilter;
+		this.id = idFilter;
 	}
 
 	public String getDescription() {
@@ -73,5 +81,13 @@ public class Filter {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Collection<Variant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(Collection<Variant> variants) {
+		this.variants = variants;
 	}
 }

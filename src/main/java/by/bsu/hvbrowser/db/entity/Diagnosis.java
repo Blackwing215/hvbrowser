@@ -1,4 +1,6 @@
-package by.bsu.hvbrowser.parser.db.entity;
+package by.bsu.hvbrowser.db.entity;
+
+import java.util.Collection;
 
 import javax.persistence.*;
 
@@ -8,7 +10,7 @@ public class Diagnosis {
 	
 	@Id
 	@Column(name="idDiagnosis")
-	private int idDiagnosis;
+	private int id;
 	
 	@Column(name="diagnosis")
 	private String diagnosis;
@@ -16,20 +18,30 @@ public class Diagnosis {
 	@Column(name="description")
 	private int description;
 	
+	@ManyToMany
+	@JoinTable(
+			name = "Diagnosis_has_Variant",
+			joinColumns = @JoinColumn(name="idDiagnosis"),
+			inverseJoinColumns = @JoinColumn(name="idVariant"))
+	private Collection<Variant> variants;
+	
+	@OneToMany(mappedBy="diagnosis")
+	private Collection<PatientHasDiagnosis> patientHasDiagnosis;
+	
 	public Diagnosis() {
 		super();
 	}
 
 	public Diagnosis(int idDiagnosis, String diagnosis, int description) {
 		super();
-		this.idDiagnosis = idDiagnosis;
+		this.id = idDiagnosis;
 		this.diagnosis = diagnosis;
 		this.description = description;
 	}
 
 	@Override
 	public String toString() {
-		return "Diagnosis [idDiagnosis=" + idDiagnosis + ", diagnosis=" + diagnosis + ", description=" + description
+		return "Diagnosis [idDiagnosis=" + id + ", diagnosis=" + diagnosis + ", description=" + description
 				+ "]";
 	}
 
@@ -39,7 +51,7 @@ public class Diagnosis {
 		int result = 1;
 		result = prime * result + description;
 		result = prime * result + ((diagnosis == null) ? 0 : diagnosis.hashCode());
-		result = prime * result + idDiagnosis;
+		result = prime * result + id;
 		return result;
 	}
 
@@ -59,17 +71,17 @@ public class Diagnosis {
 				return false;
 		} else if (!diagnosis.equals(other.diagnosis))
 			return false;
-		if (idDiagnosis != other.idDiagnosis)
+		if (id != other.id)
 			return false;
 		return true;
 	}
 
 	public int getIdDiagnosis() {
-		return idDiagnosis;
+		return id;
 	}
 
 	public void setIdDiagnosis(int idDiagnosis) {
-		this.idDiagnosis = idDiagnosis;
+		this.id = idDiagnosis;
 	}
 
 	public String getDiagnosis() {

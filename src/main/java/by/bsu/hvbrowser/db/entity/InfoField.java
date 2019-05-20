@@ -1,14 +1,16 @@
-package by.bsu.hvbrowser.parser.db.entity;
+package by.bsu.hvbrowser.db.entity;
+
+import java.util.Collection;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="format_fields")
-public class FormatField {
+@Table(name="info_fields")
+public class InfoField {
 	
 	@Id
-	@Column(name="idFormat_fields")
-	private String idFormatField;
+	@Column(name="idInfo_fields")
+	private String id;
 
 	@Column(name="number")
 	private String number;
@@ -18,14 +20,20 @@ public class FormatField {
 
 	@Column(name="description")
 	private String description;
+	
+	@OneToMany(mappedBy="infoField")
+	private Collection<Info> info;
+	
+	@ManyToMany(mappedBy="infoFields")
+	private Collection<Vcf> vcfFiles;
 
-	public FormatField() {
+	public InfoField() {
 		super();
 	}
 
-	public FormatField(String idFormatField, String number, String type, String description) {
+	public InfoField(String idInfoField, String number, String type, String description) {
 		super();
-		this.idFormatField = idFormatField;
+		this.id = idInfoField;
 		this.number = number;
 		this.type = type;
 		this.description = description;
@@ -33,8 +41,8 @@ public class FormatField {
 
 	@Override
 	public String toString() {
-		return "FormatField [idFormatField=" + idFormatField + ", number=" + number + ", type=" + type
-				+ ", description=" + description + "]";
+		return "InfoField [idInfoField=" + id + ", number=" + number + ", type=" + type + ", description="
+				+ description + "]";
 	}
 
 	@Override
@@ -42,7 +50,7 @@ public class FormatField {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((idFormatField == null) ? 0 : idFormatField.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -56,16 +64,16 @@ public class FormatField {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FormatField other = (FormatField) obj;
+		InfoField other = (InfoField) obj;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (idFormatField == null) {
-			if (other.idFormatField != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idFormatField.equals(other.idFormatField))
+		} else if (!id.equals(other.id))
 			return false;
 		if (number == null) {
 			if (other.number != null)
@@ -80,12 +88,12 @@ public class FormatField {
 		return true;
 	}
 
-	public String getIdFormatField() {
-		return idFormatField;
+	public String getIdInfoField() {
+		return id;
 	}
 
-	public void setIdFormatField(String idFormatField) {
-		this.idFormatField = idFormatField;
+	public void setIdInfoField(String idInfoField) {
+		this.id = idInfoField;
 	}
 
 	public String getNumber() {

@@ -1,4 +1,6 @@
-package by.bsu.hvbrowser.parser.db.entity;
+package by.bsu.hvbrowser.db.entity;
+
+import java.util.Collection;
 
 import javax.persistence.*;
 
@@ -8,7 +10,7 @@ public class Contig {
 
 	@Id
 	@Column(name="idContigs")
-	private int idContig;
+	private String id;
 	
 	@Column(name="length")
 	private long length;
@@ -24,14 +26,17 @@ public class Contig {
 	
 	@Column(name="taxonomy")
 	private String taxonomy;
+	
+	@ManyToMany(mappedBy="contigs")
+	private Collection<Vcf> vcfFiles;
 
 	public Contig() {
 		super();
 	}
 
-	public Contig(int idContig, long length, String assembly, String md5, String species, String taxonomy) {
+	public Contig(String idContig, long length, String assembly, String md5, String species, String taxonomy) {
 		super();
-		this.idContig = idContig;
+		this.id = idContig;
 		this.length = length;
 		this.assembly = assembly;
 		this.md5 = md5;
@@ -41,7 +46,7 @@ public class Contig {
 
 	@Override
 	public String toString() {
-		return "Contig [idContig=" + idContig + ", length=" + length + ", assembly=" + assembly + ", md5=" + md5
+		return "Contig [idContig=" + id + ", length=" + length + ", assembly=" + assembly + ", md5=" + md5
 				+ ", species=" + species + ", taxonomy=" + taxonomy + "]";
 	}
 
@@ -50,7 +55,7 @@ public class Contig {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((assembly == null) ? 0 : assembly.hashCode());
-		result = prime * result + idContig;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (int) (length ^ (length >>> 32));
 		result = prime * result + ((md5 == null) ? 0 : md5.hashCode());
 		result = prime * result + ((species == null) ? 0 : species.hashCode());
@@ -72,7 +77,7 @@ public class Contig {
 				return false;
 		} else if (!assembly.equals(other.assembly))
 			return false;
-		if (idContig != other.idContig)
+		if (id != other.id)
 			return false;
 		if (length != other.length)
 			return false;
@@ -94,12 +99,12 @@ public class Contig {
 		return true;
 	}
 
-	public int getIdContig() {
-		return idContig;
+	public String getIdContig() {
+		return id;
 	}
 
-	public void setIdContig(int idContig) {
-		this.idContig = idContig;
+	public void setIdContig(String idContig) {
+		this.id = idContig;
 	}
 
 	public long getLength() {
@@ -141,4 +146,13 @@ public class Contig {
 	public void setTaxonomy(String taxonomy) {
 		this.taxonomy = taxonomy;
 	}
+
+	public Collection<Vcf> getVcfFiles() {
+		return vcfFiles;
+	}
+
+	public void setVcfFiles(Collection<Vcf> vcfFiles) {
+		this.vcfFiles = vcfFiles;
+	}
+	
 }
