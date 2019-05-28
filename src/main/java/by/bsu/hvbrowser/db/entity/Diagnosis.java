@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,15 +19,15 @@ public class Diagnosis {
 	@Column(name="description")
 	private int description;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
 			name = "Diagnosis_has_Variant",
 			joinColumns = @JoinColumn(name="idDiagnosis"),
 			inverseJoinColumns = @JoinColumn(name="idVariant"))
-	private Collection<Variant> variants;
+	private List<Variant> variants = new ArrayList<>();
 	
-	@OneToMany(mappedBy="diagnosis")
-	private Collection<PatientHasDiagnosis> patientHasDiagnosis;
+	@OneToMany(mappedBy="diagnosis", cascade = {CascadeType.ALL})
+	private List<PatientHasDiagnosis> patientHasDiagnosis = new ArrayList<>();
 	
 	public Diagnosis() {
 		super();

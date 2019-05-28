@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -21,11 +22,11 @@ public class InfoField {
 	@Column(name="description")
 	private String description;
 	
-	@OneToMany(mappedBy="infoField")
-	private Collection<Info> info;
+	@OneToMany(mappedBy="infoField", cascade = {CascadeType.ALL})
+	private List<Info> info = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="infoFields")
-	private Collection<Vcf> vcfFiles;
+	@ManyToMany(mappedBy="infoFields", cascade = {CascadeType.ALL})
+	private List<Vcf> vcfFiles = new ArrayList<>();
 
 	public InfoField() {
 		super();
@@ -88,11 +89,11 @@ public class InfoField {
 		return true;
 	}
 
-	public String getIdInfoField() {
+	public String getId() {
 		return id;
 	}
 
-	public void setIdInfoField(String idInfoField) {
+	public void setId(String idInfoField) {
 		this.id = idInfoField;
 	}
 
@@ -119,4 +120,21 @@ public class InfoField {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public List<Info> getInfo() {
+		return info;
+	}
+
+	public void setInfo(List<Info> info) {
+		this.info = info;
+	}
+
+	public List<Vcf> getVcfFiles() {
+		return vcfFiles;
+	}
+
+	public void setVcfFiles(List<Vcf> vcfFiles) {
+		this.vcfFiles = vcfFiles;
+	}	
+	
 }

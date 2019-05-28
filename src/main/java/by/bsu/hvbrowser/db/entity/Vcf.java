@@ -2,7 +2,8 @@ package by.bsu.hvbrowser.db.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="vcf")
@@ -12,7 +13,7 @@ public class Vcf {
 	@Column(name="idVCF")
 	private String id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name="Patient_idPatient")
 	private Patient patient;
 	
@@ -25,52 +26,52 @@ public class Vcf {
 	@Column(name="file_date")
 	private Date fileDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name="Reference_idReference")
 	private Reference reference;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "VCF_has_FILTER",
+			name = "vcf_has_filter",
 			joinColumns = @JoinColumn(name="idVCF"),
 			inverseJoinColumns = @JoinColumn(name="idFILTER"))
-	private Collection<Filter> filters;
+	private List<Filter> filters = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "VCF_has_Contigs",
+			name = "vcf_has_contigs",
 			joinColumns = @JoinColumn(name="idVCF"),
 			inverseJoinColumns = @JoinColumn(name="idContigs"))
-	private Collection<Contig> contigs;
+	private List<Contig> contigs = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "VCF_has_INFO_fields",
+			name = "vcf_has_info_fields",
 			joinColumns = @JoinColumn(name="idVCF"),
 			inverseJoinColumns = @JoinColumn(name="idINFO_fields"))
-	private Collection<InfoField> infoFields;
+	private List<InfoField> infoFields = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "VCF_has_FORMAT_fields",
+			name = "vcf_has_format_fields",
 			joinColumns = @JoinColumn(name="idVCF"),
 			inverseJoinColumns = @JoinColumn(name="idFORMAT_fields"))
-	private Collection<FormatField> formatFields;
+	private List<FormatField> formatFields = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "VCF_has_Variant",
+			name = "vcf_has_variant",
 			joinColumns = @JoinColumn(name="idVCF"),
 			inverseJoinColumns = @JoinColumn(name="idVariant"))
-	private Collection<Variant> variants;
+	private List<Variant> variants = new ArrayList<>();
 	
 	public Vcf() {
 		super();
 	}
 	
 	public Vcf(String idVCF, Patient patient, String header, String fileFormat, Date fileDate, Reference reference,
-			Collection<Filter> filters, Collection<Contig> contigs, Collection<InfoField> infoFields,
-			Collection<FormatField> formatFields, Collection<Variant> variants) {
+			List<Filter> filters, List<Contig> contigs, List<InfoField> infoFields,
+			List<FormatField> formatFields, List<Variant> variants) {
 		super();
 		this.id = idVCF;
 		this.patient = patient;
@@ -178,7 +179,7 @@ public class Vcf {
 		return true;
 	}
 
-	public String getIdVCF() {
+	public String getId() {
 		return id;
 	}
 
@@ -190,7 +191,7 @@ public class Vcf {
 		return patient;
 	}
 
-	public void setIdPatient(Patient patient) {
+	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
 
@@ -226,48 +227,83 @@ public class Vcf {
 		this.reference = reference;
 	}
 
-	public Collection<Filter> getFilters() {
+	public List<Filter> getFilters() {
 		return filters;
 	}
 
-	public void setFilters(Collection<Filter> filters) {
+	public void setFilters(List<Filter> filters) {
 		this.filters = filters;
 	}
 
-	public Collection<Contig> getContigs() {
+	public List<Contig> getContigs() {
 		return contigs;
 	}
 
-	public void setContigs(Collection<Contig> contigs) {
+	public void setContigs(List<Contig> contigs) {
 		this.contigs = contigs;
 	}
 
-	public Collection<InfoField> getInfoFields() {
+	public List<InfoField> getInfoFields() {
 		return infoFields;
 	}
 
-	public void setInfoFields(Collection<InfoField> infoFields) {
+	public void setInfoFields(List<InfoField> infoFields) {
 		this.infoFields = infoFields;
 	}
 
-	public Collection<FormatField> getFormatFields() {
+	public List<FormatField> getFormatFields() {
 		return formatFields;
 	}
 
-	public void setFormatFields(Collection<FormatField> formatFields) {
+	public void setFormatFields(List<FormatField> formatFields) {
 		this.formatFields = formatFields;
 	}
 
-	public Collection<Variant> getVariants() {
+	public List<Variant> getVariants() {
 		return variants;
 	}
 
-	public void setVariants(Collection<Variant> variants) {
+	public void setVariants(List<Variant> variants) {
 		this.variants = variants;
 	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	
+	public void addInfoField(InfoField infoField) {
+		this.infoFields.add(infoField);
 	}
 	
+	public void removeInfoField(InfoField infoField) {
+		this.infoFields.remove(infoField);
+	}
+	
+	public void addFormatField(FormatField formatField) {
+		this.formatFields.add(formatField);
+	}
+	
+	public void removeFormatField(FormatField formatField) {
+		this.formatFields.remove(formatField);
+	}
+	
+	public void addFilter(Filter filter) {
+		this.filters.add(filter);
+	}
+	
+	public void removeFilter(Filter filter) {
+		this.filters.remove(filter);
+	}
+	
+	public void addContig(Contig contig) {
+		this.contigs.add(contig);
+	}
+	
+	public void removeContig(Contig contig) {
+		this.contigs.remove(contig);
+	}
+	
+	public void addVariant(Variant variant) {
+		this.variants.add(variant);
+	}
+	
+	public void removeVariant(Variant variant) {
+		this.variants.remove(variant);
+	}
 }

@@ -1,14 +1,17 @@
 package by.bsu.hvbrowser.db.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import by.bsu.hvbrowser.db.repository.VariantRepository;
+import by.bsu.hvbrowser.db.entity.Variant;
 
-@Component
-public class VariantService {
+@Service
+public interface VariantService {
 
-//	@Autowired
-//	private VariantRepository repository;
+	public Variant addOrUpdate(Variant variant);
 	
+	public Variant findById(Long id);
+	
+	public void delete(Variant variant);
+	
+	public void deleteById(Long id);
 }

@@ -1,6 +1,9 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
@@ -10,41 +13,42 @@ import javax.persistence.*;
 public class Reference {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="idReference")
-	private int idReference;
+	private int id;
 	
 	@Column(name="name")
 	private String name;
 	
 	@Column(name="path")
-	private int path;
+	private String path;
 	
-	@OneToMany(mappedBy = "reference")
-	private Collection<Vcf> vcfFiles;
+	@OneToMany(mappedBy = "reference", cascade = {CascadeType.ALL})
+	private List<Vcf> vcfFiles = new ArrayList<>();
 
 	public Reference() {
 		super();
 	}
 
-	public Reference(int idReference, String name, int path) {
+	public Reference(int idReference, String name, String path) {
 		super();
-		this.idReference = idReference;
+		this.id = idReference;
 		this.name = name;
 		this.path = path;
 	}
 
 	@Override
 	public String toString() {
-		return "Reference [idReference=" + idReference + ", name=" + name + ", path=" + path + "]";
+		return "Reference [idReference=" + id + ", name=" + name + ", path=" + path + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idReference;
+		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + path;
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		return result;
 	}
 
@@ -57,7 +61,7 @@ public class Reference {
 		if (getClass() != obj.getClass())
 			return false;
 		Reference other = (Reference) obj;
-		if (idReference != other.idReference)
+		if (id != other.id)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -69,12 +73,12 @@ public class Reference {
 		return true;
 	}
 
-	public int getIdReference() {
-		return idReference;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdReference(int idReference) {
-		this.idReference = idReference;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -85,11 +89,27 @@ public class Reference {
 		this.name = name;
 	}
 
-	public int getPath() {
+	public String getPath() {
 		return path;
 	}
 
-	public void setPath(int path) {
-		this.path = path;
+	public void setPath(String string) {
+		this.path = string;
+	}
+
+	public List<Vcf> getVcfFiles() {
+		return vcfFiles;
+	}
+
+	public void setVcfFiles(List<Vcf> vcfFiles) {
+		this.vcfFiles = vcfFiles;
+	}
+	
+	public void addVcf(Vcf vcfFile) {
+		this.vcfFiles.add(vcfFile);
+	}
+	
+	public void removeVcf(Vcf vcfFile) {
+		this.vcfFiles.remove(vcfFile);
 	}
 }

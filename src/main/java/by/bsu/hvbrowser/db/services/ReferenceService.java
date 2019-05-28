@@ -1,14 +1,19 @@
 package by.bsu.hvbrowser.db.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import by.bsu.hvbrowser.db.repository.ReferenceRepository;
+import by.bsu.hvbrowser.db.entity.Reference;
 
-@Component
-public class ReferenceService {
+@Service
+public interface ReferenceService {
 
-//	@Autowired
-//	private ReferenceRepository repository;
+	public Reference addOrUpdate(Reference reference);
 	
+	public Reference findById(int id);
+	
+//	public Reference findByName(String name);
+	
+	public void delete(Reference reference);
+	
+	public void deleteById(int id);
 }

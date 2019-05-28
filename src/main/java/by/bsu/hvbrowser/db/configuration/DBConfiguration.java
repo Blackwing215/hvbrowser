@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 @Configuration
-@ComponentScan("by.bsu,hvbrowser.db")
+@ComponentScan("by.bsu.hvbrowser.db")
 @PropertySource(value = {"db.properties"})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "by.bsu.hvbrowser.db.dao")

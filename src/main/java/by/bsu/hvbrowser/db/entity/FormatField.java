@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -21,11 +22,11 @@ public class FormatField {
 	@Column(name="description")
 	private String description;
 	
-	@OneToMany(mappedBy="formatField")
-	private Collection<Format> formats;
+	@OneToMany(mappedBy="formatField", cascade = {CascadeType.ALL})
+	private List<Format> formats = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="formatFields")
-	private Collection<Vcf> vcfFiles;
+	@ManyToMany(mappedBy="formatFields", cascade = {CascadeType.ALL})
+	private List<Vcf> vcfFiles = new ArrayList<>();
 
 	public FormatField() {
 		super();
@@ -88,11 +89,11 @@ public class FormatField {
 		return true;
 	}
 
-	public String getIdFormatField() {
+	public String getId() {
 		return id;
 	}
 
-	public void setIdFormatField(String idFormatField) {
+	public void setId(String idFormatField) {
 		this.id = idFormatField;
 	}
 

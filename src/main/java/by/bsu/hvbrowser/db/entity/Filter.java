@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,11 +16,11 @@ public class Filter {
 	@Column(name="description")
 	private String description;
 	
-	@OneToMany(mappedBy = "filter")
-	private Collection<Variant> variants;
+	@OneToMany(mappedBy = "filter", cascade = {CascadeType.ALL})
+	private List<Variant> variants = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="filters")
-	private Collection<Vcf> vcfFiles;
+	@ManyToMany(mappedBy="filters", cascade = {CascadeType.ALL})
+	private List<Vcf> vcfFiles = new ArrayList<>();
 
 	public Filter() {
 		super();
@@ -67,11 +68,11 @@ public class Filter {
 		return true;
 	}
 
-	public String getIdFilter() {
+	public String getId() {
 		return id;
 	}
 
-	public void setIdFilter(String idFilter) {
+	public void setId(String idFilter) {
 		this.id = idFilter;
 	}
 
@@ -83,11 +84,11 @@ public class Filter {
 		this.description = description;
 	}
 
-	public Collection<Variant> getVariants() {
+	public List<Variant> getVariants() {
 		return variants;
 	}
 
-	public void setVariants(Collection<Variant> variants) {
+	public void setVariants(List<Variant> variants) {
 		this.variants = variants;
 	}
 }

@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -9,24 +10,25 @@ import javax.persistence.*;
 public class Info {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="idInfo")
-	private int id;
+	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name="idINFO_fields")
 	private InfoField infoField;
 
 	@Column(name="value")
 	private String value;
 
-	@ManyToMany(mappedBy="info")
-	private Collection<Variant> variants;
+	@ManyToMany(mappedBy="info", cascade = {CascadeType.ALL})
+	private List<Variant> variants = new ArrayList<>();
 	
 	public Info() {
 		super();
 	}
 
-	public Info(int idInfo, InfoField infoField, String value, Collection<Variant> variants) {
+	public Info(int idInfo, InfoField infoField, String value, List<Variant> variants) {
 		super();
 		this.id = idInfo;
 		this.infoField = infoField;
@@ -44,7 +46,7 @@ public class Info {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((infoField == null) ? 0 : infoField.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		result = prime * result + ((variants == null) ? 0 : variants.hashCode());
@@ -80,7 +82,7 @@ public class Info {
 		return true;
 	}
 
-	public int getIdInfo() {
+	public long getIdInfo() {
 		return id;
 	}
 
@@ -104,11 +106,11 @@ public class Info {
 		this.infoField = infoField;
 	}
 
-	public Collection<Variant> getVariants() {
+	public List<Variant> getVariants() {
 		return variants;
 	}
 
-	public void setVariants(Collection<Variant> variants) {
+	public void setVariants(List<Variant> variants) {
 		this.variants = variants;
 	}
 	

@@ -1,6 +1,7 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -30,29 +31,29 @@ public class Variant {
 	@Column(name="qual")
 	private int qual;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name="idFILTER")
 	private Filter filter;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "Variant_has_FORMAT",
+			name = "variant_has_format",
 			joinColumns = @JoinColumn(name="idVariant"),
 			inverseJoinColumns = @JoinColumn(name="idFORMAT"))
-	private Collection<Format> formats;
+	private List<Format> formats = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
-			name = "Variant_has_INFO",
+			name = "variant_has_info",
 			joinColumns = @JoinColumn(name="idVariant"),
 			inverseJoinColumns = @JoinColumn(name="idINFO"))
-	private Collection<Info> info;
+	private List<Info> info = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="variants")
-	private Collection<Vcf> vcfFiles;
+	@ManyToMany(mappedBy="variants", cascade = {CascadeType.ALL})
+	private List<Vcf> vcfFiles = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="variants")
-	private Collection<Diagnosis> diagnosis;
+	@ManyToMany(mappedBy="variants", cascade = {CascadeType.ALL})
+	private List<Diagnosis> diagnosis = new ArrayList<>();
 
 	public Variant() {
 		super();
@@ -135,11 +136,11 @@ public class Variant {
 		return true;
 	}
 
-	public long getIdVariant() {
+	public long getId() {
 		return id;
 	}
 
-	public void setIdVariant(long idVariant) {
+	public void setId(long idVariant) {
 		this.id = idVariant;
 	}
 
@@ -199,36 +200,43 @@ public class Variant {
 		this.filter = filter;
 	}
 
-	public Collection<Format> getFormats() {
+	public List<Format> getFormats() {
 		return formats;
 	}
 
-	public void setFormats(Collection<Format> formats) {
+	public void setFormats(List<Format> formats) {
 		this.formats = formats;
 	}
 
-	public Collection<Info> getInfo() {
+	public List<Info> getInfo() {
 		return info;
 	}
 
-	public void setInfo(Collection<Info> info) {
+	public void setInfo(List<Info> info) {
 		this.info = info;
 	}
 
-	public Collection<Vcf> getVcfFiles() {
+	public List<Vcf> getVcfFiles() {
 		return vcfFiles;
 	}
 
-	public void setVcfFiles(Collection<Vcf> vcfFiles) {
+	public void setVcfFiles(List<Vcf> vcfFiles) {
 		this.vcfFiles = vcfFiles;
 	}
 
-	public Collection<Diagnosis> getDiagnosis() {
+	public List<Diagnosis> getDiagnosis() {
 		return diagnosis;
 	}
 
-	public void setDiagnosis(Collection<Diagnosis> diagnosis) {
+	public void setDiagnosis(List<Diagnosis> diagnosis) {
 		this.diagnosis = diagnosis;
 	}
 	
+	public void addVcf(Vcf vcf) {
+		this.vcfFiles.add(vcf);
+	}
+	
+	public void removeVcf(Vcf vcf) {
+		this.vcfFiles.remove(vcf);
+	}
 }

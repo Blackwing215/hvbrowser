@@ -1,7 +1,10 @@
 package by.bsu.hvbrowser.db.entity;
 
 import java.sql.Date;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
@@ -22,18 +25,18 @@ public class Patient {
 	@Column(name = "birthdate", columnDefinition="date null")
 	private java.sql.Date birthdate;
 	
-	@OneToMany(mappedBy = "patient")
-	private Collection<Vcf> vcfFiles;
+	@OneToMany(mappedBy = "patient", cascade = {CascadeType.ALL})
+	private Map<String, Vcf> vcfFiles = new HashMap<>();
 	
-	@OneToMany(mappedBy="patient")
-	private Collection<PatientHasDiagnosis> patientHasDiagnosis;
+	@OneToMany(mappedBy="patient", cascade = {CascadeType.ALL})
+	private List<PatientHasDiagnosis> patientHasDiagnosis = new ArrayList<>();
 	
 	public Patient() {
 		super();
 	}
 
-	public Patient(int idPatient, String firstName, String lastName, Date birthdate, Collection<Vcf> vcfFiles,
-			Collection<PatientHasDiagnosis> patientHasDiagnosis) {
+	public Patient(int idPatient, String firstName, String lastName, Date birthdate, Map<String,Vcf> vcfFiles,
+			List<PatientHasDiagnosis> patientHasDiagnosis) {
 		super();
 		this.id = idPatient;
 		this.firstName = firstName;
@@ -106,8 +109,8 @@ public class Patient {
 		return id;
 	}
 
-	public void setIdPatient(int idPatient) {
-		this.id = idPatient;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -134,20 +137,27 @@ public class Patient {
 		this.birthdate = birthdate;
 	}
 
-	public Collection<Vcf> getVcfFiles() {
+	public Map<String, Vcf> getVcfFiles() {
 		return vcfFiles;
 	}
 
-	public void setVcfFiles(Collection<Vcf> vcfFiles) {
+	public void setVcfFiles(Map<String, Vcf> vcfFiles) {
 		this.vcfFiles = vcfFiles;
 	}
 
-	public Collection<PatientHasDiagnosis> getPatientHasDiagnosis() {
+	public List<PatientHasDiagnosis> getPatientHasDiagnosis() {
 		return patientHasDiagnosis;
 	}
 
-	public void setPatientHasDiagnosis(Collection<PatientHasDiagnosis> patientHasDiagnosis) {
+	public void setPatientHasDiagnosis(List<PatientHasDiagnosis> patientHasDiagnosis) {
 		this.patientHasDiagnosis = patientHasDiagnosis;
 	}
 	
+	public void addVcf(Vcf vcfFile) {
+		this.vcfFiles.put(vcfFile.getId(), vcfFile);
+	}
+	
+	public void removeVcf(Vcf vcfFile) {
+		this.vcfFiles.remove(vcfFile.getId());
+	}
 }

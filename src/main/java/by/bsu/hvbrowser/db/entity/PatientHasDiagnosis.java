@@ -11,11 +11,11 @@ public class PatientHasDiagnosis {
 	@EmbeddedId
 	private PatientDiagnosisEmbedded id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@MapsId("idPatient")
 	private Patient patient;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@MapsId("idDiagnosis")
 	private Diagnosis diagnosis;
 	

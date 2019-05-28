@@ -1,14 +1,17 @@
 package by.bsu.hvbrowser.db.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import by.bsu.hvbrowser.db.repository.VcfRepository;
+import by.bsu.hvbrowser.db.entity.Vcf;
 
-@Component
-public class VcfService {
+@Service
+public interface VcfService {
+
+	public Vcf addOrUpdate(Vcf vcf);
 	
-//	@Autowired
-//	private VcfRepository repository;
-
+	public Vcf findById(String id);
+	
+	public void delete(Vcf vcf);
+	
+	public void deleteById(String id);
 }

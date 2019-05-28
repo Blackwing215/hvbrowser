@@ -1,6 +1,6 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -8,10 +8,11 @@ import javax.persistence.*;
 public class Format {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="idFormat")
-	private int id;
+	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name="idFormat_fields")
 	private FormatField formatField;
 
@@ -21,15 +22,15 @@ public class Format {
 	@Column(name="sample_name")
 	private String sampleName;
 	
-	@ManyToMany(mappedBy="formats")
-	private Collection<Variant> variants;
+	@ManyToMany(mappedBy="formats", cascade = {CascadeType.ALL})
+	private List<Variant> variants;
 
 	public Format() {
 		super();
 	}
 
 	public Format(int idFormat, FormatField formatField, String value, String sampleName,
-			Collection<Variant> variants) {
+			List<Variant> variants) {
 		super();
 		this.id = idFormat;
 		this.formatField = formatField;
@@ -49,7 +50,7 @@ public class Format {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((formatField == null) ? 0 : formatField.hashCode());
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((sampleName == null) ? 0 : sampleName.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		result = prime * result + ((variants == null) ? 0 : variants.hashCode());
@@ -90,7 +91,7 @@ public class Format {
 		return true;
 	}
 
-	public int getIdFormat() {
+	public long getIdFormat() {
 		return id;
 	}
 
@@ -122,11 +123,11 @@ public class Format {
 		this.formatField = formatField;
 	}
 
-	public Collection<Variant> getVariants() {
+	public List<Variant> getVariants() {
 		return variants;
 	}
 
-	public void setVariants(Collection<Variant> variants) {
+	public void setVariants(List<Variant> variants) {
 		this.variants = variants;
 	}
 }

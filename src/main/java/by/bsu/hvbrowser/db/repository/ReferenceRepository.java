@@ -8,4 +8,5 @@ import by.bsu.hvbrowser.db.entity.Reference;
 @Repository
 public interface ReferenceRepository extends JpaRepository<Reference, Integer> {
 
+	
 }

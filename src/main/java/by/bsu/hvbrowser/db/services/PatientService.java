@@ -1,32 +1,20 @@
 package by.bsu.hvbrowser.db.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import by.bsu.hvbrowser.db.entity.Patient;
-import by.bsu.hvbrowser.db.repository.PatientRepository;
 
 @Service
-public class PatientService {
-
-	@Autowired
-	private PatientRepository repository;
+@Transactional
+public interface PatientService {
 	
 	
-	public Patient addOrUpdate(Patient patient) {
-		return repository.save(patient);
-	}
+	public Patient addOrUpdate(Patient patient);
 	
-	public Patient findById(int id) {
-		return repository.getOne(id);
-	}
+	public Patient findById(int id);
 	
-	public void delete(Patient patient) {
-		repository.delete(patient);
-	}
+	public void delete(Patient patient);
 	
-	public void deleteById(int id) {
-		repository.deleteById(id);
-	}
+	public void deleteById(int id);
 }

@@ -1,11 +1,11 @@
 package by.bsu.hvbrowser.db.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="contig")
+@Table(name="contigs")
 public class Contig {
 
 	@Id
@@ -28,7 +28,7 @@ public class Contig {
 	private String taxonomy;
 	
 	@ManyToMany(mappedBy="contigs")
-	private Collection<Vcf> vcfFiles;
+	private List<Vcf> vcfFiles;
 
 	public Contig() {
 		super();
@@ -103,7 +103,7 @@ public class Contig {
 		return id;
 	}
 
-	public void setIdContig(String idContig) {
+	public void setId(String idContig) {
 		this.id = idContig;
 	}
 
@@ -147,11 +147,11 @@ public class Contig {
 		this.taxonomy = taxonomy;
 	}
 
-	public Collection<Vcf> getVcfFiles() {
+	public List<Vcf> getVcfFiles() {
 		return vcfFiles;
 	}
 
-	public void setVcfFiles(Collection<Vcf> vcfFiles) {
+	public void setVcfFiles(List<Vcf> vcfFiles) {
 		this.vcfFiles = vcfFiles;
 	}
 	
